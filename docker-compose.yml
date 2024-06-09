@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  megaGameWebUi:
+    image: megagame-webui
+    container_name: megaGameWebUi
+    build:
+      context: ./MegaGame.WebUi
+      dockerfile: Dockerfile
+    ports:
+      - 7700:80
+    restart: always 
+
+  
