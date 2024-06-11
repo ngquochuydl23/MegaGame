@@ -1,4 +1,7 @@
 
+using MegaGame.Api.Extensions;
+using MegaGame.Api.Infrastructures;
+
 namespace MegaGame.Api
 {
 	public class Program
@@ -7,29 +10,19 @@ namespace MegaGame.Api
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
-
+			builder.Services
+			   .AddWebApiConfiguration(builder.Configuration)
+			   .AddDbContext<MegaGameDbContext>(builder.Configuration)
+			   .AddAutoMapperConfig<AutoMapperProfile>();
 			var app = builder.Build();
 
-			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
 
-			app.UseHttpsRedirection();
-
-			app.UseAuthorization();
-
-
-			app.MapControllers();
-
+			app.AddCommonApplicationBuilder();
 			app.Run();
 		}
 	}
